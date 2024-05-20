@@ -1,5 +1,6 @@
 package com.alexandre.demo.entities;
 
+import com.alexandre.demo.controller.login.request.LoginRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 import java.util.UUID;
@@ -68,5 +70,9 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Boolean isLoginIncorrect(LoginRequest request, PasswordEncoder encoder) {
+        return encoder.matches(request.password(), this.password);
     }
 }
